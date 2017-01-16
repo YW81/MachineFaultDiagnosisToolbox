@@ -19,7 +19,7 @@
 clear;
 close all;
 clc;
-pos = [91   600   1698  392];
+pos = [200   200   1000  500];
 
 
 %% ---------------------------------------------------------------
@@ -86,7 +86,8 @@ fault2 = 'rand_impact';       % 故障2设置为随机冲击
 
 % 由单自由度系统的单位脉冲响应模拟轴承故障引起的冲击信号
 % 故障1的系统参数
-m1 = 0.005;                % 质量 Kg
+% m1 = 0.005;                % 质量 Kg
+m1 = 0.003;                % 质量 Kg
 c1 = 8;                    % 阻尼 N/(m/s)
 k1 = 4^2*pi*pi*20000;    % 刚度 N/m
 
@@ -144,7 +145,8 @@ phs = phs1+phs_tor;
 % 1. 故障冲击信号生成
 imp1 = imp_gen(fs,phs,m1,c1,k1,360/BPFI1,3,fault1);
 imp2 = imp_gen(fs,phs,m2,c2,k2,360/BPFI1,10,fault2);
-bearing = imp1+ imp2;
+% bearing = imp1+ imp2;
+bearing = imp1;
 
 % 2. 转子信号生成
 rot = 3*cos(2*pi*mean(v).*t/60+pi/3)+1.3*cos(2*pi*2*mean(v).*t/60-pi/6);
@@ -177,6 +179,7 @@ gear = gear(:);
 nDb =  -0;
 % sig = bearing + rot + gear;
 sig = bearing;
+% sig = gear;
 x = noisegen(sig,nDb);
 noi = x - sig;
 
